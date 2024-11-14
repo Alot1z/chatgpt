@@ -1,10 +1,14 @@
-FROM node:18-alpine
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# Dockerfile
+FROM python:3.10-slim
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN chown -R appuser:appgroup /app
-EXPOSE 8080
-USER appuser
-CMD [ "npm", "start" ]
+COPY . /app
+
+# Installer Python afhængigheder
+RUN pip install -r requirements.txt
+
+# Eksponér port 5000
+EXPOSE 5000
+
+# Start applikationen
+CMD ["python", "app.py"]
